@@ -1,0 +1,25 @@
+{
+  "id": "com.messiant.orangetv",
+  "version": "1.0.0",
+  "compatibility": ">=5.0.0",
+  "sdk": 3,
+  "name": {
+    "en": "OrangeTV"
+  },
+  "description": {
+    "en": "Adds support for orange TV box"
+  },
+  "category": [
+    "appliances"
+  ],
+  "permissions": [],
+  "images": {
+    "small": "/assets/images/small.png",
+    "large": "/assets/images/large.png",
+    "xlarge": "/assets/images/xlarge.png"
+  },
+  "author": {
+    "name": "Olivier Messiant",
+    "email": "o.messiant@orange.fr"
+  }
+}
