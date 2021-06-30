@@ -1,0 +1,32 @@
+{
+  "name": {
+    "en": "SetTopBox",
+    "fr": "Decodeur"
+  },
+  "class": "tv",
+  "capabilities": [
+    "onoff",
+    "volume_down",
+    "volume_mute",
+    "volume_up"
+  ],
+  "pair": [
+      {
+        "id": "list_devices",
+        "template": "list_devices",
+        "navigation": {
+          "next": "add_devices"
+        },
+        "options": { "singular": true }
+      },
+      {
+        "id": "add_devices",
+        "template": "add_devices"
+      }
+    ],
+  "images": {
+    "small": "/drivers/settopbox/assets/images/decodeur-tv-4-face.jpeg",
+    "large": "/drivers/settopbox/assets/images/decodeur-tv-4-face.jpeg",
+    "xlarge": "/drivers/settopbox/assets/images/decodeur-tv-4-face.jpeg"
+  }
+}

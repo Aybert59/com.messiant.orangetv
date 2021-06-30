@@ -21,5 +21,32 @@
   "author": {
     "name": "Olivier Messiant",
     "email": "o.messiant@orange.fr"
-  }
+  },
+  "source": "https://github.com/Aybert59/com.messiant.orangetv",
+  "support": "mailto:o.messiant@orange.fr",
+  "drivers": [
+    {
+      "id": "settopbox",
+      "name": {
+        "en": "SetTopBox"
+      },
+      "class": "tv",
+      "capabilities": [
+        "channel_down",
+        "channel_up",
+        "measure_current",
+        "speaker_playing",
+        "measure_power",
+        "volume_set",
+        "volume_down",
+        "volume_mute",
+        "volume_up"
+      ],
+      "images": {
+        "small": "/drivers/settopbox/assets/images/small.png",
+        "large": "/drivers/settopbox/assets/images/large.png",
+        "xlarge": "/drivers/settopbox/assets/images/xlarge.png"
+      }
+    }
+  ]
 }
