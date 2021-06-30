@@ -78,7 +78,7 @@ class STBDevice extends Device {
       this.sendKey (116, 0); // on/off
   }
     
-    getInfo() {
+    sync() {
 
         let addr = this.getStoreValue ('ipaddress');
         const testuri = 'http://' + addr + ':8080/remoteControl/cmd?operation=10';
@@ -94,36 +94,28 @@ class STBDevice extends Device {
             if (statusCode == 200) {
               try {
                 let parsedData = JSON.parse(rawData);
-                return parsedData.result;
+                  this.setAvailable();
+                  const status = parsedData.result.data.activeStandbyState;
+                  if (status == '0') {
+                      this.setCapabilityValue ('onoff', true);
+      this.log ('      ... on');
+                  } else {
+                      this.setCapabilityValue ('onoff', false);
+      this.log ('      ... off');
+                  }
                   
                 } catch (e) {
-                  this.log(e.message);
+                    this.log(e.message);
+                    this.setUnavailable();
               }
             }
           });
         }).on('error', (e) => {
-          //this.log(`Got error: ${e.message}`);
+            this.setUnavailable();
+            this.log(`Got error: ${e.message}`);
         });
     }
     
-    sync() {  //synchronises the real device status to the app
-this.log ('syncing...');
-        const info = await this.getInfo();
-        
-        if (data) {
-            this.setAvailable();
-            const status = info.data.activeStandbyState;
-            if (status == '0') {
-                this.setCapabilityValue ('onoff', true);
-this.log ('      ... on');
-            } else {
-                this.setCapabilityValue ('onoff', false);
-this.log ('      ... off');
-            }
-        } else {
-            this.setUnavailable();
-        }
-      }
 }
 
 module.exports = STBDevice;

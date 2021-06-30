@@ -3,7 +3,7 @@
 const http = require('http');
 const { Driver } = require('homey');
 const ip = require('ip');
-
+const STBDevice = require('./device');
 
 class STBDriver extends Driver {
 
@@ -40,7 +40,6 @@ class STBDriver extends Driver {
                                  ipaddress: addr,
                               }
                          });
-this.log(devices);
                   session.emit("list_devices", devices);
                   
               } catch (e) {
