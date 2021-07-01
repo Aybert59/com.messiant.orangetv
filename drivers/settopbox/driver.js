@@ -14,7 +14,6 @@ class STBDriver extends Driver {
     this.log('Driver SetTopBox has been initialized');
   }
 
-
     async getInfo(addr, session, devices) {
 
         const testuri = 'http://' + addr + ':8080/remoteControl/cmd?operation=10';
@@ -69,16 +68,15 @@ class STBDriver extends Driver {
 
             // return devices when searching is done
             return devices;
-
           });
         
-
+        // the STB has to be on same network as Homey
         let myIP = ip.address();
         let lastDot = myIP.lastIndexOf(".");
         let ipAddrPrefix = myIP.substring(0, lastDot + 1);
         
         
-        // for each ip detecter s'il y a un device, et l'ajouter
+        // for each ip detect if there is a device
         for (let i = 2; i < 255; i++) {
 
           let testIP = ipAddrPrefix + i;
@@ -87,9 +85,7 @@ class STBDriver extends Driver {
         }
   
         return ;
-
       }
-
 }
 
 module.exports = STBDriver;

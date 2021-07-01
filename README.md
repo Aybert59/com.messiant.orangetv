@@ -1,3 +1,3 @@
 # OrangeTV
 
-Adds support for orange TV box
+Pilotez votre décodeur TV d'orange

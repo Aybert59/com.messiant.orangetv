@@ -3,7 +3,7 @@
 const http = require('http');
 const { Device } = require('homey');
 
-const SYNC_INTERVAL = 1000 * 60 * 1; // 1 min
+const SYNC_INTERVAL = 1000 * 20  // 20 seconds
 
 class STBDevice extends Device {
 
@@ -15,6 +15,10 @@ class STBDevice extends Device {
     this.log(this.getName());
       
     this.registerCapabilityListener("onoff", this.onCapabilityOnoff.bind(this));
+    
+    this.registerCapabilityListener("volume_down", this.onCapabilityVolDown.bind(this));
+    this.registerCapabilityListener("volume_up", this.onCapabilityVolUp.bind(this));
+    this.registerCapabilityListener("volume_mute", this.onCapabilityVolMute.bind(this));
   }
 
   /**
@@ -54,9 +58,13 @@ class STBDevice extends Device {
    */
   async onDeleted() {
     this.log('MyDevice has been deleted');
+      clearInterval(this.syncInterval);
   }
 
     async sendKey (key, mode) {
+        
+        // reference here https://tv-orange.pourqui.com/commandes.html
+        
         // mode :
         //      0 : envoi unique de touche
         //      1 : appui prolongé de touche
@@ -69,14 +77,21 @@ class STBDevice extends Device {
     
   // this method is called when the Device has requested a state change (turned on or off)
   async onCapabilityOnoff(value, opts) {
-        // ... set value to real device, e.g.
-        // await setMyDeviceState({ on: value });
-        // or, throw an error
-        // throw new Error('Switching the device failed!');
-      this.log('MyDevice switch');
-      
       this.sendKey (116, 0); // on/off
   }
+    
+    async onCapabilityVolDown(value, opts) {
+        this.sendKey (114, 0);
+        this.log('volume down');
+    }
+    async onCapabilityVolUp(value, opts) {
+        this.sendKey (115, 0);
+        this.log('volume up');
+    }
+    async onCapabilityVolMute(value, opts) {
+        this.sendKey (113, 0);
+        this.log('volume mute');
+    }
     
     sync() {
 

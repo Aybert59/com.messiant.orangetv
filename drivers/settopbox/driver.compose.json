@@ -25,8 +25,8 @@
       }
     ],
   "images": {
-    "small": "/drivers/settopbox/assets/images/decodeur-tv-4-face.jpeg",
-    "large": "/drivers/settopbox/assets/images/decodeur-tv-4-face.jpeg",
-    "xlarge": "/drivers/settopbox/assets/images/decodeur-tv-4-face.jpeg"
+    "small": "/drivers/settopbox/assets/images/orangeTV small.png",
+    "large": "/drivers/settopbox/assets/images/orangeTV large.png"
+
   }
 }
