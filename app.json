@@ -1,23 +1,35 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.messiant.orangetv",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "name": {
     "en": "OrangeTV"
   },
+  "brandColor": "#FF9900",
   "description": {
-    "en": "Adds support for orange TV box"
+    "en": "Drive your french Orange TV box",
+    "fr": "Pilotez votre décodeur TV d'orange"
   },
   "category": [
     "appliances"
   ],
   "permissions": [],
+  "homeyCommunityTopicId": 49004,
   "images": {
-    "small": "/assets/images/small.png",
-    "large": "/assets/images/large.png",
-    "xlarge": "/assets/images/xlarge.png"
+    "small": "/assets/images/orangeTV small.png",
+    "large": "/assets/images/orangeTV large.png"
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "paypal.me/Aybert59"
+      }
+    }
+  },
+  "bugs": {
+    "url": "https://github.com/Aybert59/com.messiant.orangetv/issues"
   },
   "author": {
     "name": "Olivier Messiant",
@@ -55,9 +67,8 @@
         }
       ],
       "images": {
-        "small": "/drivers/settopbox/assets/images/decodeur-tv-4-face.jpeg",
-        "large": "/drivers/settopbox/assets/images/decodeur-tv-4-face.jpeg",
-        "xlarge": "/drivers/settopbox/assets/images/decodeur-tv-4-face.jpeg"
+        "small": "/drivers/settopbox/assets/images/orangeTV small.png",
+        "large": "/drivers/settopbox/assets/images/orangeTV large.png"
       },
       "id": "settopbox"
     }
