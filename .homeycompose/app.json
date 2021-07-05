@@ -4,12 +4,13 @@
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "name": {
-    "en": "OrangeTV"
+    "en": "Orange TV",
+    "fr": "TV d'Orange"
   },
   "brandColor": "#FF9900",
   "description": {
-    "en": "Drive your french Orange TV box",
-    "fr": "Pilotez votre décodeur TV d'orange"
+    "en": "Don't search for your remote anymore !",
+    "fr": "Ne cherchez plus votre télécommande !"
   },
   "category": [
     "appliances"
