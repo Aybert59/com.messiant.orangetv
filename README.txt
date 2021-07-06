@@ -1,5 +1,7 @@
-Connectez et pilotez vos décodeurs TV d'orange. 
-Compatible décodeur UHD 4K, et UHD 87 - l'option multi écrans également.
-Ne ratez plus jamais le début de votre émission !
+Connect and drive your Orange TV set top box
+Compatible with UHD 4K and UHD 87 model, as well as multi-screen option.
 
-Version 1 : version minimale permettant d'allumer et éteindre le décodeur, et piloter le son
+never miss again the beginning of your favorite show !
+
+Version 1 : minimum viable application that allows set top box switch on and off, as well audio volume management
+

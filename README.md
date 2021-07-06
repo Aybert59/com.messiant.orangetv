@@ -1,3 +1,3 @@
 # OrangeTV
 
-Pilotez votre décodeur TV d'orange
+Manage your Orange TV set top box
