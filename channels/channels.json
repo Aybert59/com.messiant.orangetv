@@ -1,0 +1,17 @@
+[
+    {
+        "name": "TF1",
+        "id": "*******192",
+        "channel": 1
+    },
+    {
+        "name": "France2",
+        "id": "*********4",
+        "channel": 2
+    },
+    {
+        "name": "France3",
+        "id": "********80",
+        "channel": 3
+    }
+]
