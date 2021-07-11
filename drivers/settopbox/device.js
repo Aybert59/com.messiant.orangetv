@@ -1,12 +1,16 @@
 'use strict';
 
 const http = require('http');
+const https = require('https');
 const { Device } = require('homey');
 
 const SYNC_INTERVAL = 1000 * 20  // 20 seconds
 
 class STBDevice extends Device {
 
+    static channelsDB;
+    static channelId;
+    
   /**
    * onInit is called when the device is initialized.
    */
@@ -19,6 +23,8 @@ class STBDevice extends Device {
     this.registerCapabilityListener("volume_down", this.onCapabilityVolDown.bind(this));
     this.registerCapabilityListener("volume_up", this.onCapabilityVolUp.bind(this));
     this.registerCapabilityListener("volume_mute", this.onCapabilityVolMute.bind(this));
+      
+    this.updateChannels();
   }
 
   /**
@@ -28,8 +34,8 @@ class STBDevice extends Device {
     this.log('MyDevice has been added');
     this.log(this.getName());
       
-    this.sync();
-    this.syncInterval = setInterval(() => this.sync(), SYNC_INTERVAL);
+    this.syncStatus();
+    this.syncInterval = setInterval(() => this.syncStatus(), SYNC_INTERVAL);
   }
 
   /**
@@ -93,7 +99,62 @@ class STBDevice extends Device {
         this.log('volume mute');
     }
     
-    sync() {
+    updateChannels() {
+        this.channelsDB = require('../../channels/channels.json');
+
+        // print all databases
+        this.channelsDB.forEach(db => {
+            this.log(`${db.name}: ${db.id}, ${db.channel}`);
+        });
+    }
+    
+    
+    updateChannelsFromWeb() {   /// trouver un moyen stocker n fichier sur internet de manière accessible ...
+        const channelsUri = 'https://drive.google.com/file/d/1At7PvEbmRRjNIhq3UQ7PxyKysotZbL3o/view';
+        
+        https.get(channelsUri, (res) => {
+          const { statusCode } = res;
+          const contentType = res.headers['content-type'];
+
+          res.setEncoding('utf8');
+          let rawData = '';
+          res.on('data', (chunk) => { rawData += chunk; });
+          res.on('end', () => {
+            if (statusCode == 200) {
+              try {
+                  this.log (rawData);
+                let channelsDB = JSON.parse(rawData);
+                  
+                  channelsDB.forEach(db => {
+                      this.log(`${db.name}: ${db.id}, ${db.channel}`);
+                  });
+                  
+                } catch (e) {
+                    this.log(`Cannot parse channels. Got error: ${e.message}`);
+                }
+            }
+          });
+        }).on('error', (e) => {
+            this.log(`Cannot fetch channels. Got error: ${e.message}`);
+        });
+    }
+    
+    findChannelID(channel) {
+      if (channel.id == this.channelId)
+          return true;
+        else
+          return false;
+    }
+    
+    getChannelNumByID (id) {
+        var channel = this.channelsDB.find (this.findChannelID, this);
+        if (channel == undefined)
+            return 0;
+        else
+            return channel.channel;
+    }
+    
+    syncStatus() {
 
         let addr = this.getStoreValue ('ipaddress');
         const testuri = 'http://' + addr + ':8080/remoteControl/cmd?operation=10';
@@ -111,9 +172,17 @@ class STBDevice extends Device {
                 let parsedData = JSON.parse(rawData);
                   this.setAvailable();
                   const status = parsedData.result.data.activeStandbyState;
+                  
+                  
                   if (status == '0') {
                       this.setCapabilityValue ('onoff', true);
       this.log ('      ... on');
+                      this.channelId = parsedData.result.data.playedMediaId;
+                      const channelNum = this.getChannelNumByID (this.channelID);
+      this.log ('channel num ' + channelNum);
+                      this.setCapabilityValue ('measure_channel_capability', channelNum);
+                      
+      
                   } else {
                       this.setCapabilityValue ('onoff', false);
       this.log ('      ... off');

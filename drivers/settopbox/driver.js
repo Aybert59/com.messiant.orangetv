@@ -86,6 +86,21 @@ class STBDriver extends Driver {
   
         return ;
       }
+    
+    onRepair(session, device) {
+        // Argument session is a PairSocket, similar to Driver.onPair
+        // Argument device is a Homey.Device that's being repaired
+        this.log ('Repairing');
+        
+        device.updateChannels();
+        session.setHandler("my_event", (data) => {
+          // Your code
+        });
+
+        session.setHandler("disconnect", () => {
+          // Cleanup
+        });
+      }
 }
 
 module.exports = STBDriver;

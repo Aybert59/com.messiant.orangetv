@@ -8,7 +8,9 @@
     "onoff",
     "volume_down",
     "volume_mute",
-    "volume_up"
+    "volume_up",
+    "station_capability",
+    "measure_channel_capability"
   ],
   "pair": [
       {
@@ -19,6 +21,12 @@
         },
         "options": { "singular": true }
       },
+      {
+        "id": "add_devices",
+        "template": "add_devices"
+      }
+    ],
+  "repair": [
       {
         "id": "add_devices",
         "template": "add_devices"

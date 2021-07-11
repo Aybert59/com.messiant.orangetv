@@ -1,0 +1,8 @@
+{
+  "type": "enum",
+  "title": { "en": "Station", "fr": "Chaine" },
+  "uiComponent": "picker",
+  "getable": true,
+  "setable": true,
+  "values": [{ "id": "option1", "title": { "en": "none", "fr": "aucune" }}]
+}

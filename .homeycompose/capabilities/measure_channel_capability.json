@@ -1,0 +1,7 @@
+{
+  "type": "number",
+  "title": { "en": "Channel", "fr": "Canal" },
+  "uiComponent": null,
+  "min": 0,
+  "max": 999
+}
