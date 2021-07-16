@@ -10,16 +10,11 @@ class STBDevice extends Device {
 
     static channelsDB;
     static channelId;
-    static channelNum;
     
   /**
    * onInit is called when the device is initialized.
    */
   async onInit() {
-      
-    this.channelsDB = require('../../channels/channels.json'); // would be better with a file downloaded from the web
-      
-      
     this.log('STB has been initialized');
     this.log(this.getName());
       
@@ -29,15 +24,16 @@ class STBDevice extends Device {
     this.registerCapabilityListener("volume_up", this.onCapabilityVolUp.bind(this));
     this.registerCapabilityListener("volume_mute", this.onCapabilityVolMute.bind(this));
       
+    if (this.hasCapability ('station_capability_dynamic'))
+    {
+      this.registerCapabilityListener("station_capability_dynamic", this.onCapabilityStation.bind(this));
+    }
     if (this.hasCapability ('station_capability_static'))
     {
       this.registerCapabilityListener("station_capability_static", this.onCapabilityStation.bind(this));
     }
       
     this.updateChannels();
-      
-    const changeChannelAction = this.homey.flow.getActionCard('change_channel');
-      changeChannelAction.registerRunListener(this.flowChangeChannelAction.bind(this));
 
   }
 
@@ -115,30 +111,80 @@ class STBDevice extends Device {
     }
     
     async onCapabilityStation (value, opts) {
-        
-        // as there is no way to get the label from the picker, necessity to maintain a separate DB file
         let ipAdr = this.getStoreValue ('ipaddress');
         let key = value.toString();
         let uri = 'http://' + ipAdr + ':8080/remoteControl/cmd?operation=09&epg_id=' + key.padStart(10,'*') + '&uui=1';
+        this.log (uri);
         http.get (uri);
-        
-        this.syncStatus();
     }
     
     updateChannels() {
         
-        // if one day we could have it dynamic
-       
+        this.channelsDB = require('../../channels/channels.json'); // would be better with a file downloaded from the web
+        
+        if (this.hasCapability ('station_capability_dynamic'))
+        {
+            const channelList = [];
+        
+            // print all databases
+            this.channelsDB.forEach(db => {
+                this.log(`${db.name}: ${db.id}, ${db.channel}`);
+                channelList.push({
+                    id: db.id,
+                    title: { "en": db.channel+' '+db.name, "fr": db.channel+' '+db.name }
+                });
+            });
+        
+             const option = {"type": "enum",
+                "title": { "en": "Station", "fr": "Chaine" },
+                "uiComponent": "picker",
+                "getable": true,
+                "setable": true,
+                "values": channelList
+              }
+            
+            this.log (option);
+            this.log (option.values);
+//            this.removeCapability ('station_capability');
+//            this.addCapability ('station_capability');
+            this.setCapabilityOptions ('station_capability', option);
+            
+            this.log (this.getCapabilityOptions ('station_capability'));
+        }
+        
     }
     
-    async flowChangeChannelAction (args, state) {
-         
-        if (this.getCapabilityValue ('onoff') == true) {
-            const canalID = this.getChannelIDByNum (args.canal);
-            this.triggerCapabilityListener('station_capability_static', canalID, null);
-        }
+    
+    updateChannelsFromWeb() {   /// trouver un moyen stocker n fichier sur internet de manière accessible ...
+        const channelsUri = 'https://drive.google.com/file/d/1At7PvEbmRRjNIhq3UQ7PxyKysotZbL3o/view';
+        
+        https.get(channelsUri, (res) => {
+          const { statusCode } = res;
+          const contentType = res.headers['content-type'];
+
+          res.setEncoding('utf8');
+          let rawData = '';
+          res.on('data', (chunk) => { rawData += chunk; });
+          res.on('end', () => {
+            if (statusCode == 200) {
+              try {
+                  this.log (rawData);
+                let channelsDB = JSON.parse(rawData);
+                  
+                  channelsDB.forEach(db => {
+                      this.log(`${db.name}: ${db.id}, ${db.channel}`);
+                  });
+                  
+                } catch (e) {
+                    this.log(`Cannot parse channels. Got error: ${e.message}`);
+                }
+            }
+          });
+        }).on('error', (e) => {
+            this.log(`Cannot fetch channels. Got error: ${e.message}`);
+        });
     }
-       
+    
     findChannelID(channel) {
       if (channel.id == this.channelId)
           return true;
@@ -146,35 +192,12 @@ class STBDevice extends Device {
           return false;
     }
     
-    findChannelNum(channel) {
-      if (channel.channel == this.channelNum)
-          return true;
-        else
-          return false;
-    }
-    
     getChannelNumByID (id) {
-        if (id == undefined) {
-            return 0;
-        }
-        this.channelId = id;
         var channel = this.channelsDB.find (this.findChannelID, this);
         if (channel == undefined)
             return 0;
         else
             return channel.channel;
-    }
-    
-    getChannelIDByNum (num) {
-        if (num == undefined) {
-            return 0;
-        }
-        this.channelNum = num;
-        var channel = this.channelsDB.find (this.findChannelNum, this);
-        if (channel == undefined)
-            return 0;
-        else
-            return channel.id;
     }
     
     syncStatus() {
@@ -201,15 +224,20 @@ class STBDevice extends Device {
                       this.setCapabilityValue ('onoff', true);
 
                       this.channelId = parsedData.result.data.playedMediaId;
-                      const channelNum = this.getChannelNumByID (parsedData.result.data.playedMediaId);
+                      const channelNum = this.getChannelNumByID (this.channelID);
                       this.setCapabilityValue ('measure_channel_capability', channelNum);
                       
                       if (this.channelId != undefined)
                       {
-                        if (this.hasCapability ('station_capability_static'))
-                        {
+                      if (this.hasCapability ('station_capability_dynamic'))
+                      {
+                          this.setCapabilityValue ('station_capability_dynamic', this.channelId);
+                      }
+                      if (this.hasCapability ('station_capability_static'))
+                      {
+                          this.log ("this is the channel ID", this.channelId);
                           this.setCapabilityValue ('station_capability_static', this.channelId);
-                        }
+                      }
                       }
                   } else {
                       this.setCapabilityValue ('onoff', false);

@@ -9,7 +9,7 @@
     "volume_down",
     "volume_mute",
     "volume_up",
-    "station_capability",
+    "station_capability_static",
     "measure_channel_capability"
   ],
   "pair": [

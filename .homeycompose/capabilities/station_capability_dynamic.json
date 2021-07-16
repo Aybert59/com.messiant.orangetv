@@ -4,5 +4,5 @@
   "uiComponent": "picker",
   "getable": true,
   "setable": true,
-  "values": [{ "id": "option1", "title": { "en": "none", "fr": "aucune" }}]
+  "values": [    { "id": "0", "title": { "en": "none", "fr": "aucune" }}]
 }

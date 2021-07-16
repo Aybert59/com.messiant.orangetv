@@ -1,0 +1,16 @@
+{
+  "title": {
+    "en": "Change channel to ...",
+    "fr": "Met la chaine ..."
+  },
+  "titleFormatted": {
+    "en": "Change channel to [[canal]]",
+    "fr": "Met la chaine [[canal]]"
+  },
+  "args": [
+    {
+      "name": "canal",
+      "type": "number"
+    }
+  ]
+}
