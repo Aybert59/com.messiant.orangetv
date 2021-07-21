@@ -11,6 +11,7 @@ class STBDevice extends Device {
     static channelsDB;
     static channelId;
     static channelNum;
+    static channelName;
     
   /**
    * onInit is called when the device is initialized.
@@ -33,12 +34,15 @@ class STBDevice extends Device {
     {
       this.registerCapabilityListener("station_capability_static", this.onCapabilityStation.bind(this));
     }
+    this.registerCapabilityListener("user_pref_station", this.onCapabilityPrefStation1.bind(this));
+
       
     this.updateChannels();
       
     const changeChannelAction = this.homey.flow.getActionCard('change_channel');
       changeChannelAction.registerRunListener(this.flowChangeChannelAction.bind(this));
-
+      
+ 
   }
 
   /**
@@ -62,7 +66,29 @@ class STBDevice extends Device {
    * @returns {Promise<string|void>} return a custom message that will be displayed
    */
   async onSettings({ oldSettings, newSettings, changedKeys }) {
-    this.log('MyDevice settings where changed');
+    this.log('MyDevice settings where changed', oldSettings, newSettings, changedKeys);
+ 
+    /* en fait rien à faire pour les settins de station
+     
+      for (var i = 0; i < changedKeys.length; i++) {
+        const key = changedKeys[i];
+        switch (key) {
+            case 'PrefChannel1' :
+                this.log ('updating PrefChannel 1 with ', newSettings.PrefChannel1);
+                if (newSettings.PrefChannel1 != undefined)
+                  this.setCapabilityValue ('user_pref_station.1', newSettings.PrefChannel1);
+
+            break;
+            case 'PrefChannel2' :
+                this.log ('updating PrefChannel 2 with ', newSettings.PrefChannel2);
+                if (newSettings.PrefChannel1 != undefined)
+                  this.setCapabilityValue ('user_pref_station.2', newSettings.PrefChannel2);
+            break;
+        }
+      }
+      
+      */
+      
   }
 
   /**
@@ -90,7 +116,7 @@ class STBDevice extends Device {
         //      0 : envoi unique de touche
         //      1 : appui prolongé de touche
         //      2 : relacher la touche après un appui prolongé
-        
+this.log ('sending key : ', key);
         let ipAdr = this.getStoreValue ('ipaddress');
         let uri = 'http://' + ipAdr + ':8080/remoteControl/cmd?operation=01&key=' + key + '&mode=' + mode;
         http.get (uri);
@@ -103,15 +129,12 @@ class STBDevice extends Device {
     
     async onCapabilityVolDown(value, opts) {
         this.sendKey (114, 0);
-        this.log('volume down');
     }
     async onCapabilityVolUp(value, opts) {
         this.sendKey (115, 0);
-        this.log('volume up');
     }
     async onCapabilityVolMute(value, opts) {
         this.sendKey (113, 0);
-        this.log('volume mute');
     }
     
     async onCapabilityStation (value, opts) {
@@ -119,10 +142,26 @@ class STBDevice extends Device {
         // as there is no way to get the label from the picker, necessity to maintain a separate DB file
         let ipAdr = this.getStoreValue ('ipaddress');
         let key = value.toString();
-        let uri = 'http://' + ipAdr + ':8080/remoteControl/cmd?operation=09&epg_id=' + key.padStart(10,'*') + '&uui=1';
-        http.get (uri);
         
+        if (key.charAt(0) == 'A') {
+            const chaine = key.substring(1);
+            for (var i = 0; i < chaine.length; i++) {
+                var c = parseInt(chaine.charAt(i)) + 512;
+                setTimeout(() => this.sendKey (c, 0), i * 200); // wait a bit (200ms) between each key
+            }
+        } else {
+            let uri = 'http://' + ipAdr + ':8080/remoteControl/cmd?operation=09&epg_id=' + key.padStart(10,'*') + '&uui=1';
+            http.get (uri);
+        }
+        
+
         this.syncStatus();
+    }
+    
+    async onCapabilityPrefStation1 (value, opts) {
+        const channel = this.getSetting ('PrefChannel1');
+        this.log ('user preferred station 1', channel, opts);
+        this.onCapabilityStation (channel, opts);
     }
     
     updateChannels() {
@@ -153,6 +192,13 @@ class STBDevice extends Device {
           return false;
     }
     
+    findChannelName(channel) {
+      if (channel.name.indexOf(this.channelName) >= 0)
+          return true;
+        else
+          return false;
+    }
+    
     getChannelNumByID (id) {
         if (id == undefined) {
             return 0;
@@ -163,6 +209,22 @@ class STBDevice extends Device {
             return 0;
         else
             return channel.channel;
+    }
+    
+    getChannelNumByName (name) {
+        
+        this.channelName = name;
+        var channel = this.channelsDB.find (this.findChannelName, this);
+        if (channel == undefined)
+        {
+            this.channelId = "0";
+            return 0;
+        }
+        else {
+            this.channelId = channel.id;
+            return channel.channel;
+        }
+            
     }
     
     getChannelIDByNum (num) {
@@ -177,8 +239,10 @@ class STBDevice extends Device {
             return channel.id;
     }
     
+    
     syncStatus() {
-
+        var channelNum;
+        
         let addr = this.getStoreValue ('ipaddress');
         const testuri = 'http://' + addr + ':8080/remoteControl/cmd?operation=10';
                 
@@ -199,17 +263,35 @@ class STBDevice extends Device {
                   
                   if (status == '0') {
                       this.setCapabilityValue ('onoff', true);
-
                       this.channelId = parsedData.result.data.playedMediaId;
-                      const channelNum = this.getChannelNumByID (parsedData.result.data.playedMediaId);
-                      this.setCapabilityValue ('measure_channel_capability', channelNum);
                       
-                      if (this.channelId != undefined)
-                      {
-                        if (this.hasCapability ('station_capability_static'))
-                        {
-                          this.setCapabilityValue ('station_capability_static', this.channelId);
-                        }
+                      if (this.channelId == "") {
+                          // cas de netflix
+        this.log ('search for ID of ', parsedData.result.data.osdContext); // après netflix, pour changer de chaine, on trouve "popuphandler" : à noter pour approuver, éventuellement (sendkey ok / est-ce le bon endroit ? pas sur)
+                          // on trouve aussi 'home' sur page de garde
+                          
+                          if (parsedData.result.data.osdContext == "popuphandler") { // n'a pas l'air au point
+                              const force = this.getSetting ('sendOK');
+                              if (force == true) {
+                                  this.sendKey (352, 0);
+                              }
+                          }
+                          channelNum = this.getChannelNumByName (parsedData.result.data.osdContext);
+                          
+                      } else {
+                          channelNum = this.getChannelNumByID (parsedData.result.data.playedMediaId);
+                      }
+                      
+                      if (channelNum != "0") {
+                          this.setCapabilityValue ('measure_channel_capability', channelNum);
+                      
+                          if (this.channelId != undefined)
+                          {
+                              if (this.hasCapability ('station_capability_static'))
+                              {
+                                  this.setCapabilityValue ('station_capability_static', this.channelId);
+                              }
+                          }
                       }
                   } else {
                       this.setCapabilityValue ('onoff', false);

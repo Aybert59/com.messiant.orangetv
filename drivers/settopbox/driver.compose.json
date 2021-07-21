@@ -10,6 +10,7 @@
     "volume_mute",
     "volume_up",
     "station_capability_static",
+    "user_pref_station",
     "measure_channel_capability"
   ],
   "pair": [

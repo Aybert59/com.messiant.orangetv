@@ -54,6 +54,7 @@
     { "name": "CINE+ CLUB", "id": "285", "channel": 63 },
     { "name": "CINE+ CLASSIC", "id": "287", "channel": 64 },
     { "name": "EUROCHANNEL", "id": "1190", "channel": 65 },
+    { "name": "netflix", "id": "A66", "channel": 66 },
     { "name": "MTV", "id": "128", "channel": 71 },
     { "name": "BET", "id": "1960", "channel": 72 },
     { "name": "AB1", "id": "5", "channel": 73 },
