@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.messiant.orangetv",
-  "version": "1.0.3",
+  "version": "1.1.1",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "name": {
@@ -72,6 +72,7 @@
         "volume_mute",
         "volume_up",
         "station_capability_static",
+        "user_pref_station",
         "measure_channel_capability"
       ],
       "pair": [
@@ -100,7 +101,1351 @@
         "small": "/drivers/settopbox/assets/images/orangeTV small.png",
         "large": "/drivers/settopbox/assets/images/orangeTV large.png"
       },
-      "id": "settopbox"
+      "id": "settopbox",
+      "settings": [
+        {
+          "id": "sendOK",
+          "type": "checkbox",
+          "label": {
+            "en": "Force channel change",
+            "fr": "Changement de canal Forcé"
+          },
+          "value": true
+        },
+        {
+          "id": "PrefChannel1",
+          "type": "dropdown",
+          "label": {
+            "en": "Preferred Channel #1",
+            "fr": "Chaine préférée #1"
+          },
+          "values": [
+            {
+              "id": "192",
+              "label": {
+                "en": "1 TF1",
+                "fr": "1 TF1"
+              }
+            },
+            {
+              "id": "4",
+              "label": {
+                "en": "2 FRANCE 2",
+                "fr": "2 FRANCE 2"
+              }
+            },
+            {
+              "id": "80",
+              "label": {
+                "en": "3 FRANCE 3",
+                "fr": "3 FRANCE 3"
+              }
+            },
+            {
+              "id": "34",
+              "label": {
+                "en": "4 CANAL+",
+                "fr": "4 CANAL+"
+              }
+            },
+            {
+              "id": "47",
+              "label": {
+                "en": "5 FRANCE 5",
+                "fr": "5 FRANCE 5"
+              }
+            },
+            {
+              "id": "118",
+              "label": {
+                "en": "6 M6",
+                "fr": "6 M6"
+              }
+            },
+            {
+              "id": "111",
+              "label": {
+                "en": "7 ARTE",
+                "fr": "7 ARTE"
+              }
+            },
+            {
+              "id": "445",
+              "label": {
+                "en": "8 C8",
+                "fr": "8 C8"
+              }
+            },
+            {
+              "id": "119",
+              "label": {
+                "en": "9 W9",
+                "fr": "9 W9"
+              }
+            },
+            {
+              "id": "195",
+              "label": {
+                "en": "10 TMC",
+                "fr": "10 TMC"
+              }
+            },
+            {
+              "id": "446",
+              "label": {
+                "en": "11 TFX",
+                "fr": "11 TFX"
+              }
+            },
+            {
+              "id": "444",
+              "label": {
+                "en": "12 NRJ12",
+                "fr": "12 NRJ12"
+              }
+            },
+            {
+              "id": "234",
+              "label": {
+                "en": "13 LCP/PS",
+                "fr": "13 LCP/PS"
+              }
+            },
+            {
+              "id": "78",
+              "label": {
+                "en": "14 FRANCE 4",
+                "fr": "14 FRANCE 4"
+              }
+            },
+            {
+              "id": "481",
+              "label": {
+                "en": "15 BFM TV",
+                "fr": "15 BFM TV"
+              }
+            },
+            {
+              "id": "226",
+              "label": {
+                "en": "16 CNEWS",
+                "fr": "16 CNEWS"
+              }
+            },
+            {
+              "id": "458",
+              "label": {
+                "en": "17 CSTAR",
+                "fr": "17 CSTAR"
+              }
+            },
+            {
+              "id": "482",
+              "label": {
+                "en": "18 GULLI",
+                "fr": "18 GULLI"
+              }
+            },
+            {
+              "id": "160",
+              "label": {
+                "en": "19 FRANCE O",
+                "fr": "19 FRANCE O"
+              }
+            },
+            {
+              "id": "1404",
+              "label": {
+                "en": "20 TF1 SERIES FILMS",
+                "fr": "20 TF1 SERIES FILMS"
+              }
+            },
+            {
+              "id": "1401",
+              "label": {
+                "en": "21 LA CHAINE L'EQUIPE",
+                "fr": "21 LA CHAINE L'EQUIPE"
+              }
+            },
+            {
+              "id": "1403",
+              "label": {
+                "en": "22 6TER",
+                "fr": "22 6TER"
+              }
+            },
+            {
+              "id": "1402",
+              "label": {
+                "en": "23 RMC STORY",
+                "fr": "23 RMC STORY"
+              }
+            },
+            {
+              "id": "1400",
+              "label": {
+                "en": "24 RMC DECOUVERTE",
+                "fr": "24 RMC DECOUVERTE"
+              }
+            },
+            {
+              "id": "1399",
+              "label": {
+                "en": "25 CHERIE 25",
+                "fr": "25 CHERIE 25"
+              }
+            },
+            {
+              "id": "112",
+              "label": {
+                "en": "26 LCI",
+                "fr": "26 LCI"
+              }
+            },
+            {
+              "id": "2111",
+              "label": {
+                "en": "27 FRANCEINFO:",
+                "fr": "27 FRANCEINFO:"
+              }
+            },
+            {
+              "id": "1061",
+              "label": {
+                "en": "31 A la maison",
+                "fr": "31 A la maison"
+              }
+            },
+            {
+              "id": "205",
+              "label": {
+                "en": "34 TV5MONDE",
+                "fr": "34 TV5MONDE"
+              }
+            },
+            {
+              "id": "191",
+              "label": {
+                "en": "35 TEVA",
+                "fr": "35 TEVA"
+              }
+            },
+            {
+              "id": "145",
+              "label": {
+                "en": "36 PARIS PREMIERE",
+                "fr": "36 PARIS PREMIERE"
+              }
+            },
+            {
+              "id": "115",
+              "label": {
+                "en": "37 RTL9",
+                "fr": "37 RTL9"
+              }
+            },
+            {
+              "id": "225",
+              "label": {
+                "en": "38 TV BREIZH",
+                "fr": "38 TV BREIZH"
+              }
+            },
+            {
+              "id": "33",
+              "label": {
+                "en": "40 C+ CINEMA",
+                "fr": "40 C+ CINEMA"
+              }
+            },
+            {
+              "id": "35",
+              "label": {
+                "en": "41 C+ SPORT",
+                "fr": "41 C+ SPORT"
+              }
+            },
+            {
+              "id": "1563",
+              "label": {
+                "en": "42 C+ SERIES",
+                "fr": "42 C+ SERIES"
+              }
+            },
+            {
+              "id": "657",
+              "label": {
+                "en": "43 C+ FAMILY",
+                "fr": "43 C+ FAMILY"
+              }
+            },
+            {
+              "id": "30",
+              "label": {
+                "en": "44 C+ DECALE",
+                "fr": "44 C+ DECALE"
+              }
+            },
+            {
+              "id": "1290",
+              "label": {
+                "en": "45 BEIN SPORTS 1",
+                "fr": "45 BEIN SPORTS 1"
+              }
+            },
+            {
+              "id": "1304",
+              "label": {
+                "en": "46 BEIN SPORTS 2",
+                "fr": "46 BEIN SPORTS 2"
+              }
+            },
+            {
+              "id": "1335",
+              "label": {
+                "en": "47 BEIN SPORTS 3",
+                "fr": "47 BEIN SPORTS 3"
+              }
+            },
+            {
+              "id": "730",
+              "label": {
+                "en": "50 OCS MAX",
+                "fr": "50 OCS MAX"
+              }
+            },
+            {
+              "id": "733",
+              "label": {
+                "en": "51 OCS CITY, génération HBO",
+                "fr": "51 OCS CITY, génération HBO"
+              }
+            },
+            {
+              "id": "732",
+              "label": {
+                "en": "52 OCS CHOC",
+                "fr": "52 OCS CHOC"
+              }
+            },
+            {
+              "id": "734",
+              "label": {
+                "en": "53 OCS GEANTS",
+                "fr": "53 OCS GEANTS"
+              }
+            },
+            {
+              "id": "1562",
+              "label": {
+                "en": "56 PARAMOUNT CHANNEL",
+                "fr": "56 PARAMOUNT CHANNEL"
+              }
+            },
+            {
+              "id": "2072",
+              "label": {
+                "en": "57 PARAMOUNT CHANNEL DECALE",
+                "fr": "57 PARAMOUNT CHANNEL DECALE"
+              }
+            },
+            {
+              "id": "10",
+              "label": {
+                "en": "58 ACTION",
+                "fr": "58 ACTION"
+              }
+            },
+            {
+              "id": "282",
+              "label": {
+                "en": "59 CINE+ PREMIER",
+                "fr": "59 CINE+ PREMIER"
+              }
+            },
+            {
+              "id": "284",
+              "label": {
+                "en": "60 CINE+ FRISSON",
+                "fr": "60 CINE+ FRISSON"
+              }
+            },
+            {
+              "id": "283",
+              "label": {
+                "en": "61 CINE+ EMOTION",
+                "fr": "61 CINE+ EMOTION"
+              }
+            },
+            {
+              "id": "401",
+              "label": {
+                "en": "62 CINE+ FAMIZ",
+                "fr": "62 CINE+ FAMIZ"
+              }
+            },
+            {
+              "id": "285",
+              "label": {
+                "en": "63 CINE+ CLUB",
+                "fr": "63 CINE+ CLUB"
+              }
+            },
+            {
+              "id": "287",
+              "label": {
+                "en": "64 CINE+ CLASSIC",
+                "fr": "64 CINE+ CLASSIC"
+              }
+            },
+            {
+              "id": "1190",
+              "label": {
+                "en": "65 EUROCHANNEL",
+                "fr": "65 EUROCHANNEL"
+              }
+            },
+            {
+              "id": "A66",
+              "label": {
+                "en": "66 Netflix",
+                "fr": "66 netflix"
+              }
+            },
+            {
+              "id": "128",
+              "label": {
+                "en": "71 MTV",
+                "fr": "71 MTV"
+              }
+            },
+            {
+              "id": "1960",
+              "label": {
+                "en": "72 BET",
+                "fr": "72 BET"
+              }
+            },
+            {
+              "id": "5",
+              "label": {
+                "en": "73 AB1",
+                "fr": "73 AB1"
+              }
+            },
+            {
+              "id": "121",
+              "label": {
+                "en": "74 MCM",
+                "fr": "74 MCM"
+              }
+            },
+            {
+              "id": "2441",
+              "label": {
+                "en": "75 TF1 +1",
+                "fr": "75 TF1 +1"
+              }
+            },
+            {
+              "id": "2752",
+              "label": {
+                "en": "76 COMEDY CENTRAL",
+                "fr": "76 COMEDY CENTRAL"
+              }
+            },
+            {
+              "id": "87",
+              "label": {
+                "en": "77 GAME ONE",
+                "fr": "77 GAME ONE"
+              }
+            },
+            {
+              "id": "1167",
+              "label": {
+                "en": "78 GAME ONE +1",
+                "fr": "78 GAME ONE +1"
+              }
+            },
+            {
+              "id": "54",
+              "label": {
+                "en": "79 COMEDIE+",
+                "fr": "79 COMEDIE+"
+              }
+            },
+            {
+              "id": "2326",
+              "label": {
+                "en": "80 POLAR+",
+                "fr": "80 POLAR+"
+              }
+            },
+            {
+              "id": "2334",
+              "label": {
+                "en": "81 WARNER TV",
+                "fr": "81 WARNER TV"
+              }
+            },
+            {
+              "id": "49",
+              "label": {
+                "en": "82 SERIE CLUB",
+                "fr": "82 SERIE CLUB"
+              }
+            },
+            {
+              "id": "1408",
+              "label": {
+                "en": "84 NON STOP PEOPLE",
+                "fr": "84 NON STOP PEOPLE"
+              }
+            },
+            {
+              "id": "1832",
+              "label": {
+                "en": "85 NOVELAS TV",
+                "fr": "85 NOVELAS TV"
+              }
+            },
+            {
+              "id": "2803",
+              "label": {
+                "en": "88 TV PITCHOUN",
+                "fr": "88 TV PITCHOUN"
+              }
+            },
+            {
+              "id": "928",
+              "label": {
+                "en": "92 BOOMERANG +1",
+                "fr": "92 BOOMERANG +1"
+              }
+            },
+            {
+              "id": "924",
+              "label": {
+                "en": "93 BONG",
+                "fr": "93 BONG"
+              }
+            },
+            {
+              "id": "229",
+              "label": {
+                "en": "94 TIJI",
+                "fr": "94 TIJI"
+              }
+            },
+            {
+              "id": "32",
+              "label": {
+                "en": "95 CANAL J",
+                "fr": "95 CANAL J"
+              }
+            },
+            {
+              "id": "344",
+              "label": {
+                "en": "97 PIWI+",
+                "fr": "97 PIWI+"
+              }
+            },
+            {
+              "id": "197",
+              "label": {
+                "en": "98 TELETOON+",
+                "fr": "98 TELETOON+"
+              }
+            },
+            {
+              "id": "293",
+              "label": {
+                "en": "99 TELETOON+1",
+                "fr": "99 TELETOON+1"
+              }
+            },
+            {
+              "id": "58",
+              "label": {
+                "en": "100 DISNEY CHANNEL",
+                "fr": "100 DISNEY CHANNEL"
+              }
+            },
+            {
+              "id": "299",
+              "label": {
+                "en": "101 DISNEY CHANNEL+1",
+                "fr": "101 DISNEY CHANNEL+1"
+              }
+            },
+            {
+              "id": "300",
+              "label": {
+                "en": "102 DISNEY JUNIOR",
+                "fr": "102 DISNEY JUNIOR"
+              }
+            },
+            {
+              "id": "36",
+              "label": {
+                "en": "103 CARTOON NETWORK",
+                "fr": "103 CARTOON NETWORK"
+              }
+            },
+            {
+              "id": "888",
+              "label": {
+                "en": "104 NICKELODEON JUNIOR",
+                "fr": "104 NICKELODEON JUNIOR"
+              }
+            },
+            {
+              "id": "473",
+              "label": {
+                "en": "106 NICKELODEON",
+                "fr": "106 NICKELODEON"
+              }
+            },
+            {
+              "id": "2065",
+              "label": {
+                "en": "107 NICKELODEON+1",
+                "fr": "107 NICKELODEON+1"
+              }
+            },
+            {
+              "id": "1746",
+              "label": {
+                "en": "108 NICKELODEON TEEN",
+                "fr": "108 NICKELODEON TEEN"
+              }
+            },
+            {
+              "id": "2094",
+              "label": {
+                "en": "115 ULTRA NATURE UHD",
+                "fr": "115 ULTRA NATURE UHD"
+              }
+            },
+            {
+              "id": "12",
+              "label": {
+                "en": "116 ANIMAUX",
+                "fr": "116 ANIMAUX"
+              }
+            },
+            {
+              "id": "2037",
+              "label": {
+                "en": "117 CRIME DISTRICT",
+                "fr": "117 CRIME DISTRICT"
+              }
+            },
+            {
+              "id": "38",
+              "label": {
+                "en": "118 CHASSE PECHE",
+                "fr": "118 CHASSE PECHE"
+              }
+            },
+            {
+              "id": "1776",
+              "label": {
+                "en": "119 TREK",
+                "fr": "119 TREK"
+              }
+            },
+            {
+              "id": "7",
+              "label": {
+                "en": "121 TOUTE L'HISTOIRE",
+                "fr": "121 TOUTE L'HISTOIRE"
+              }
+            },
+            {
+              "id": "88",
+              "label": {
+                "en": "122 HISTOIRE TV",
+                "fr": "122 HISTOIRE TV"
+              }
+            },
+            {
+              "id": "451",
+              "label": {
+                "en": "123 USHUAIA TV",
+                "fr": "123 USHUAIA TV"
+              }
+            },
+            {
+              "id": "829",
+              "label": {
+                "en": "124 MY ZEN TV",
+                "fr": "124 MY ZEN TV"
+              }
+            },
+            {
+              "id": "63",
+              "label": {
+                "en": "125 SCIENCE & VIE TV",
+                "fr": "125 SCIENCE & VIE TV"
+              }
+            },
+            {
+              "id": "508",
+              "label": {
+                "en": "129 NATIONAL GEOGRAPHIC",
+                "fr": "129 NATIONAL GEOGRAPHIC"
+              }
+            },
+            {
+              "id": "719",
+              "label": {
+                "en": "130 NATIONAL GEOGRAPHIC WILD",
+                "fr": "130 NATIONAL GEOGRAPHIC WILD"
+              }
+            },
+            {
+              "id": "212",
+              "label": {
+                "en": "131 VOYAGE",
+                "fr": "131 VOYAGE"
+              }
+            },
+            {
+              "id": "147",
+              "label": {
+                "en": "132 PLANETE+",
+                "fr": "132 PLANETE+"
+              }
+            },
+            {
+              "id": "662",
+              "label": {
+                "en": "133 PLANETE+ CI",
+                "fr": "133 PLANETE+ CI"
+              }
+            },
+            {
+              "id": "402",
+              "label": {
+                "en": "134 PLANETE+ Aventure - Expérience",
+                "fr": "134 PLANETE+ Aventure - Expérience"
+              }
+            },
+            {
+              "id": "1072",
+              "label": {
+                "en": "136 MUSEUM",
+                "fr": "136 MUSEUM"
+              }
+            },
+            {
+              "id": "563",
+              "label": {
+                "en": "140 GINX",
+                "fr": "140 GINX"
+              }
+            },
+            {
+              "id": "2942",
+              "label": {
+                "en": "141 01TV, votre vie numérique",
+                "fr": "141 01TV, votre vie numérique"
+              }
+            },
+            {
+              "id": "2353",
+              "label": {
+                "en": "142 ES1",
+                "fr": "142 ES1"
+              }
+            },
+            {
+              "id": "2442",
+              "label": {
+                "en": "144 TMC +1",
+                "fr": "144 TMC +1"
+              }
+            },
+            {
+              "id": "6",
+              "label": {
+                "en": "145 MANGAS",
+                "fr": "145 MANGAS"
+              }
+            },
+            {
+              "id": "2040",
+              "label": {
+                "en": "146 TOONAMI",
+                "fr": "146 TOONAMI"
+              }
+            },
+            {
+              "id": "1585",
+              "label": {
+                "en": "147 J-ONE",
+                "fr": "147 J-ONE"
+              }
+            },
+            {
+              "id": "2171",
+              "label": {
+                "en": "148 VICE TV",
+                "fr": "148 VICE TV"
+              }
+            },
+            {
+              "id": "2781",
+              "label": {
+                "en": "149 CLIQUE TV",
+                "fr": "149 CLIQUE TV"
+              }
+            },
+            {
+              "id": "605",
+              "label": {
+                "en": "151 NRJ HITS",
+                "fr": "151 NRJ HITS"
+              }
+            },
+            {
+              "id": "2321",
+              "label": {
+                "en": "152 MELODY d'AFRIQUE",
+                "fr": "152 MELODY d'AFRIQUE"
+              }
+            },
+            {
+              "id": "1989",
+              "label": {
+                "en": "155 CLUBBING TV",
+                "fr": "155 CLUBBING TV"
+              }
+            },
+            {
+              "id": "2153",
+              "label": {
+                "en": "156 OKLM TV",
+                "fr": "156 OKLM TV"
+              }
+            },
+            {
+              "id": "453",
+              "label": {
+                "en": "157 M6MUSIC",
+                "fr": "157 M6MUSIC"
+              }
+            },
+            {
+              "id": "265",
+              "label": {
+                "en": "160 MELODY",
+                "fr": "160 MELODY"
+              }
+            },
+            {
+              "id": "2006",
+              "label": {
+                "en": "163 MTV HITS",
+                "fr": "163 MTV HITS"
+              }
+            },
+            {
+              "id": "2958",
+              "label": {
+                "en": "166 OLYMPIA TV",
+                "fr": "166 OLYMPIA TV"
+              }
+            },
+            {
+              "id": "125",
+              "label": {
+                "en": "167 MEZZO",
+                "fr": "167 MEZZO"
+              }
+            },
+            {
+              "id": "907",
+              "label": {
+                "en": "168 MEZZO LIVE HD",
+                "fr": "168 MEZZO LIVE HD"
+              }
+            },
+            {
+              "id": "1353",
+              "label": {
+                "en": "169 STINGRAY CLASSICA",
+                "fr": "169 STINGRAY CLASSICA"
+              }
+            },
+            {
+              "id": "64",
+              "label": {
+                "en": "173 EQUIDIA",
+                "fr": "173 EQUIDIA"
+              }
+            },
+            {
+              "id": "2837",
+              "label": {
+                "en": "174 SPORT EN FRANCE",
+                "fr": "174 SPORT EN FRANCE"
+              }
+            },
+            {
+              "id": "1336",
+              "label": {
+                "en": "179 BEIN SPORTS MAX 4",
+                "fr": "179 BEIN SPORTS MAX 4"
+              }
+            },
+            {
+              "id": "1337",
+              "label": {
+                "en": "180 BEIN SPORTS MAX 5",
+                "fr": "180 BEIN SPORTS MAX 5"
+              }
+            },
+            {
+              "id": "1338",
+              "label": {
+                "en": "181 BEIN SPORTS MAX 6",
+                "fr": "181 BEIN SPORTS MAX 6"
+              }
+            },
+            {
+              "id": "1339",
+              "label": {
+                "en": "182 BEIN SPORTS MAX 7",
+                "fr": "182 BEIN SPORTS MAX 7"
+              }
+            },
+            {
+              "id": "1340",
+              "label": {
+                "en": "183 BEIN SPORTS MAX 8",
+                "fr": "183 BEIN SPORTS MAX 8"
+              }
+            },
+            {
+              "id": "1341",
+              "label": {
+                "en": "184 BEIN SPORTS MAX 9",
+                "fr": "184 BEIN SPORTS MAX 9"
+              }
+            },
+            {
+              "id": "1342",
+              "label": {
+                "en": "185 BEIN SPORTS MAX 10",
+                "fr": "185 BEIN SPORTS MAX 10"
+              }
+            },
+            {
+              "id": "15",
+              "label": {
+                "en": "186 AUTOMOTO, la chaîne",
+                "fr": "186 AUTOMOTO, la chaîne"
+              }
+            },
+            {
+              "id": "1166",
+              "label": {
+                "en": "189 GOLF CHANNEL",
+                "fr": "189 GOLF CHANNEL"
+              }
+            },
+            {
+              "id": "1996",
+              "label": {
+                "en": "214 FASHIONTV",
+                "fr": "214 FASHIONTV"
+              }
+            },
+            {
+              "id": "531",
+              "label": {
+                "en": "215 LUXE TV",
+                "fr": "215 LUXE TV"
+              }
+            },
+            {
+              "id": "57",
+              "label": {
+                "en": "219 DEMAIN",
+                "fr": "219 DEMAIN"
+              }
+            },
+            {
+              "id": "110",
+              "label": {
+                "en": "220 KTO",
+                "fr": "220 KTO"
+              }
+            },
+            {
+              "id": "992",
+              "label": {
+                "en": "225 LCP 100%",
+                "fr": "225 LCP 100%"
+              }
+            },
+            {
+              "id": "529",
+              "label": {
+                "en": "227 FRANCE 24 FRANCAIS",
+                "fr": "227 FRANCE 24 FRANCAIS"
+              }
+            },
+            {
+              "id": "1073",
+              "label": {
+                "en": "228 BFM BUSINESS",
+                "fr": "228 BFM BUSINESS"
+              }
+            },
+            {
+              "id": "140",
+              "label": {
+                "en": "229 EURONEWS Français",
+                "fr": "229 EURONEWS Français"
+              }
+            },
+            {
+              "id": "671",
+              "label": {
+                "en": "232 FRANCE 24 ANGLAIS",
+                "fr": "232 FRANCE 24 ANGLAIS"
+              }
+            },
+            {
+              "id": "53",
+              "label": {
+                "en": "234 CNN",
+                "fr": "234 CNN"
+              }
+            },
+            {
+              "id": "51",
+              "label": {
+                "en": "235 CNBC",
+                "fr": "235 CNBC"
+              }
+            },
+            {
+              "id": "410",
+              "label": {
+                "en": "236 BLOOMBERG EUROPE",
+                "fr": "236 BLOOMBERG EUROPE"
+              }
+            },
+            {
+              "id": "19",
+              "label": {
+                "en": "237 BBC WORLD NEWS",
+                "fr": "237 BBC WORLD NEWS"
+              }
+            },
+            {
+              "id": "525",
+              "label": {
+                "en": "238 AL JAZEERA ANGLAIS",
+                "fr": "238 AL JAZEERA ANGLAIS"
+              }
+            },
+            {
+              "id": "781",
+              "label": {
+                "en": "243 I24NEWS",
+                "fr": "243 I24NEWS"
+              }
+            },
+            {
+              "id": "830",
+              "label": {
+                "en": "244 NHK WORLD - JAPAN",
+                "fr": "244 NHK WORLD - JAPAN"
+              }
+            },
+            {
+              "id": "61",
+              "label": {
+                "en": "245 DEUTSCHE WELLE",
+                "fr": "245 DEUTSCHE WELLE"
+              }
+            },
+            {
+              "id": "1662",
+              "label": {
+                "en": "271 COLMAX TV",
+                "fr": "271 COLMAX TV"
+              }
+            },
+            {
+              "id": "1711",
+              "label": {
+                "en": "272 HUSTLER HD",
+                "fr": "272 HUSTLER HD"
+              }
+            },
+            {
+              "id": "218",
+              "label": {
+                "en": "273 XXL",
+                "fr": "273 XXL"
+              }
+            },
+            {
+              "id": "560",
+              "label": {
+                "en": "274 DORCEL TV",
+                "fr": "274 DORCEL TV"
+              }
+            },
+            {
+              "id": "1474",
+              "label": {
+                "en": "275 DORCEL XXX",
+                "fr": "275 DORCEL XXX"
+              }
+            },
+            {
+              "id": "837",
+              "label": {
+                "en": "277 PENTHOUSE GOLD",
+                "fr": "277 PENTHOUSE GOLD"
+              }
+            },
+            {
+              "id": "1592",
+              "label": {
+                "en": "278 PENTHOUSE QUICKIES",
+                "fr": "278 PENTHOUSE QUICKIES"
+              }
+            },
+            {
+              "id": "1468",
+              "label": {
+                "en": "279 PENTHOUSE BLACK",
+                "fr": "279 PENTHOUSE BLACK"
+              }
+            },
+            {
+              "id": "406",
+              "label": {
+                "en": "284 PINK X",
+                "fr": "284 PINK X"
+              }
+            },
+            {
+              "id": "683",
+              "label": {
+                "en": "285 MAN-X",
+                "fr": "285 MAN-X"
+              }
+            },
+            {
+              "id": "2293",
+              "label": {
+                "en": "401 A+ KIDS",
+                "fr": "401 A+ KIDS"
+              }
+            },
+            {
+              "id": "185",
+              "label": {
+                "en": "403 TCM CINEMA VO",
+                "fr": "403 TCM CINEMA VO"
+              }
+            },
+            {
+              "id": "321",
+              "label": {
+                "en": "407 BOOMERANG (VO)",
+                "fr": "407 BOOMERANG (VO)"
+              }
+            },
+            {
+              "id": "18",
+              "label": {
+                "en": "408 FOXNEWS",
+                "fr": "408 FOXNEWS"
+              }
+            },
+            {
+              "id": "13",
+              "label": {
+                "en": "420 RTL NITRO",
+                "fr": "420 RTL NITRO"
+              }
+            },
+            {
+              "id": "2311",
+              "label": {
+                "en": "420 RTL NITRO",
+                "fr": "420 RTL NITRO"
+              }
+            },
+            {
+              "id": "219",
+              "label": {
+                "en": "422 ZDF",
+                "fr": "422 ZDF"
+              }
+            },
+            {
+              "id": "973",
+              "label": {
+                "en": "423 ZDF_NEO",
+                "fr": "423 ZDF_NEO"
+              }
+            },
+            {
+              "id": "966",
+              "label": {
+                "en": "424 RTL 2",
+                "fr": "424 RTL 2"
+              }
+            },
+            {
+              "id": "971",
+              "label": {
+                "en": "425 VOX",
+                "fr": "425 VOX"
+              }
+            },
+            {
+              "id": "964",
+              "label": {
+                "en": "427 PROSIEBEN",
+                "fr": "427 PROSIEBEN"
+              }
+            },
+            {
+              "id": "1854",
+              "label": {
+                "en": "428 SUPER RTL",
+                "fr": "428 SUPER RTL"
+              }
+            },
+            {
+              "id": "982",
+              "label": {
+                "en": "429 KIKA",
+                "fr": "429 KIKA"
+              }
+            },
+            {
+              "id": "960",
+              "label": {
+                "en": "431 3SAT",
+                "fr": "431 3SAT"
+              }
+            },
+            {
+              "id": "979",
+              "label": {
+                "en": "432 ONE",
+                "fr": "432 ONE"
+              }
+            },
+            {
+              "id": "208",
+              "label": {
+                "en": "433 TVE INTERNACIONAL",
+                "fr": "433 TVE INTERNACIONAL"
+              }
+            },
+            {
+              "id": "2046",
+              "label": {
+                "en": "452 CANAL Q",
+                "fr": "452 CANAL Q"
+              }
+            },
+            {
+              "id": "169",
+              "label": {
+                "en": "455 RTPI",
+                "fr": "455 RTPI"
+              }
+            },
+            {
+              "id": "156",
+              "label": {
+                "en": "460 RAI UNO",
+                "fr": "460 RAI UNO"
+              }
+            },
+            {
+              "id": "154",
+              "label": {
+                "en": "461 RAI DUE",
+                "fr": "461 RAI DUE"
+              }
+            },
+            {
+              "id": "155",
+              "label": {
+                "en": "462 RAI TRE",
+                "fr": "462 RAI TRE"
+              }
+            },
+            {
+              "id": "1129",
+              "label": {
+                "en": "465 RAI NEWS 24",
+                "fr": "465 RAI NEWS 24"
+              }
+            },
+            {
+              "id": "2000",
+              "label": {
+                "en": "499 THE ISRAELI NETWORK",
+                "fr": "499 THE ISRAELI NETWORK"
+              }
+            },
+            {
+              "id": "340",
+              "label": {
+                "en": "521 2M MONDE",
+                "fr": "521 2M MONDE"
+              }
+            },
+            {
+              "id": "1133",
+              "label": {
+                "en": "589 VOX AFRICA",
+                "fr": "589 VOX AFRICA"
+              }
+            },
+            {
+              "id": "1461",
+              "label": {
+                "en": "608 NOLLYWOOD TV",
+                "fr": "608 NOLLYWOOD TV"
+              }
+            },
+            {
+              "id": "984",
+              "label": {
+                "en": "611 EQUINOXE",
+                "fr": "611 EQUINOXE"
+              }
+            },
+            {
+              "id": "1466",
+              "label": {
+                "en": "612 B-ONE",
+                "fr": "612 B-ONE"
+              }
+            }
+          ]
+        }
+      ]
     }
   ],
   "capabilities": {
@@ -526,92 +1871,99 @@
         {
           "id": "1190",
           "title": {
-            "en": "66 EUROCHANNEL",
-            "fr": "66 EUROCHANNEL"
+            "en": "65 EUROCHANNEL",
+            "fr": "65 EUROCHANNEL"
           }
         },
         {
-          "id": "1960",
+          "id": "A66",
           "title": {
-            "en": "71 BET",
-            "fr": "71 BET"
-          }
-        },
-        {
-          "id": "5",
-          "title": {
-            "en": "72 AB1",
-            "fr": "72 AB1"
-          }
-        },
-        {
-          "id": "121",
-          "title": {
-            "en": "73 MCM",
-            "fr": "73 MCM"
-          }
-        },
-        {
-          "id": "2441",
-          "title": {
-            "en": "74 TF1 +1",
-            "fr": "74 TF1 +1"
-          }
-        },
-        {
-          "id": "2752",
-          "title": {
-            "en": "75 COMEDY CENTRAL",
-            "fr": "75 COMEDY CENTRAL"
-          }
-        },
-        {
-          "id": "87",
-          "title": {
-            "en": "76 GAME ONE",
-            "fr": "76 GAME ONE"
-          }
-        },
-        {
-          "id": "1167",
-          "title": {
-            "en": "77 GAME ONE +1",
-            "fr": "77 GAME ONE +1"
-          }
-        },
-        {
-          "id": "54",
-          "title": {
-            "en": "78 COMEDIE+",
-            "fr": "78 COMEDIE+"
-          }
-        },
-        {
-          "id": "2326",
-          "title": {
-            "en": "79 POLAR+",
-            "fr": "79 POLAR+"
-          }
-        },
-        {
-          "id": "2334",
-          "title": {
-            "en": "80 WARNER TV",
-            "fr": "80 WARNER TV"
-          }
-        },
-        {
-          "id": "49",
-          "title": {
-            "en": "81 SERIE CLUB",
-            "fr": "81 SERIE CLUB"
+            "en": "66 netflix",
+            "fr": "66 Netflix"
           }
         },
         {
           "id": "128",
           "title": {
-            "en": "82 MTV",
-            "fr": "82 MTV"
+            "en": "71 MTV",
+            "fr": "71 MTV"
+          }
+        },
+        {
+          "id": "1960",
+          "title": {
+            "en": "72 BET",
+            "fr": "72 BET"
+          }
+        },
+        {
+          "id": "5",
+          "title": {
+            "en": "73 AB1",
+            "fr": "73 AB1"
+          }
+        },
+        {
+          "id": "121",
+          "title": {
+            "en": "74 MCM",
+            "fr": "74 MCM"
+          }
+        },
+        {
+          "id": "2441",
+          "title": {
+            "en": "75 TF1 +1",
+            "fr": "75 TF1 +1"
+          }
+        },
+        {
+          "id": "2752",
+          "title": {
+            "en": "76 COMEDY CENTRAL",
+            "fr": "76 COMEDY CENTRAL"
+          }
+        },
+        {
+          "id": "87",
+          "title": {
+            "en": "77 GAME ONE",
+            "fr": "77 GAME ONE"
+          }
+        },
+        {
+          "id": "1167",
+          "title": {
+            "en": "78 GAME ONE +1",
+            "fr": "78 GAME ONE +1"
+          }
+        },
+        {
+          "id": "54",
+          "title": {
+            "en": "79 COMEDIE+",
+            "fr": "79 COMEDIE+"
+          }
+        },
+        {
+          "id": "2326",
+          "title": {
+            "en": "80 POLAR+",
+            "fr": "80 POLAR+"
+          }
+        },
+        {
+          "id": "2334",
+          "title": {
+            "en": "81 WARNER TV",
+            "fr": "81 WARNER TV"
+          }
+        },
+        {
+          "id": "49",
+          "title": {
+            "en": "82 SERIE CLUB",
+            "fr": "82 SERIE CLUB"
           }
         },
         {
@@ -1462,6 +2814,16 @@
           }
         }
       ]
+    },
+    "user_pref_station": {
+      "type": "boolean",
+      "title": {
+        "en": "Preferred Channel",
+        "fr": "Canal Préféré"
+      },
+      "uiComponent": "button",
+      "getable": true,
+      "setable": true
     }
   }
 }

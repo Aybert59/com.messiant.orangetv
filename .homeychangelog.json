@@ -10,5 +10,11 @@
   },
   "1.0.3": {
     "en": "localized documentation"
+  },
+  "1.1.0": {
+    "en": "Added chennel selection support"
+  },
+  "1.1.1": {
+    "en": "enhanced channels management"
   }
 }
