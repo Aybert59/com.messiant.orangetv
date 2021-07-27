@@ -1,0 +1,20 @@
+{
+  "title": {
+    "en": "Change state to ...",
+    "fr": "Met en ..."
+  },
+  "titleFormatted": {
+    "en": "Change state to [[state]]",
+    "fr": "Met en [[state]]"
+  },
+  "args": [
+    {
+      "name": "state",
+      "type": "dropdown",
+      "values": [
+              { "id": "PLAY", "label": { "en": "PLAY", "fr": "PLAY" } },
+              { "id": "PAUSE", "label": { "en": "PAUSE", "fr": "PAUSE" } }
+            ]
+    }
+  ]
+}

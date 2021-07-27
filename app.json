@@ -1,7 +1,7 @@
 {
   "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "com.messiant.orangetv",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "compatibility": ">=5.0.0",
   "sdk": 3,
   "name": {
@@ -39,6 +39,58 @@
   "source": "https://github.com/Aybert59/com.messiant.orangetv",
   "support": "mailto:o.messiant@orange.fr",
   "flow": {
+    "conditions": [
+      {
+        "title": {
+          "en": "Current chanel is ...",
+          "fr": "La chaine en cours est ..."
+        },
+        "titleFormatted": {
+          "en": "Current chanel is [[canal]]",
+          "fr": "La chaine en cours est [[canal]]"
+        },
+        "args": [
+          {
+            "name": "canal",
+            "type": "number"
+          }
+        ],
+        "id": "current_channel"
+      },
+      {
+        "title": {
+          "en": "Status is ...",
+          "fr": "L'état est ..."
+        },
+        "titleFormatted": {
+          "en": "Status is [[state]]",
+          "fr": "L'état est [[state]]"
+        },
+        "args": [
+          {
+            "name": "state",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "PLAY",
+                "label": {
+                  "en": "PLAY",
+                  "fr": "PLAY"
+                }
+              },
+              {
+                "id": "PAUSE",
+                "label": {
+                  "en": "PAUSE",
+                  "fr": "PAUSE"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "current_state"
+      }
+    ],
     "actions": [
       {
         "title": {
@@ -56,6 +108,39 @@
           }
         ],
         "id": "change_channel"
+      },
+      {
+        "title": {
+          "en": "Change state to ...",
+          "fr": "Met en ..."
+        },
+        "titleFormatted": {
+          "en": "Change state to [[state]]",
+          "fr": "Met en [[state]]"
+        },
+        "args": [
+          {
+            "name": "state",
+            "type": "dropdown",
+            "values": [
+              {
+                "id": "PLAY",
+                "label": {
+                  "en": "PLAY",
+                  "fr": "PLAY"
+                }
+              },
+              {
+                "id": "PAUSE",
+                "label": {
+                  "en": "PAUSE",
+                  "fr": "PAUSE"
+                }
+              }
+            ]
+          }
+        ],
+        "id": "change_state"
       }
     ]
   },
@@ -73,7 +158,9 @@
         "volume_up",
         "station_capability_static",
         "user_pref_station",
-        "measure_channel_capability"
+        "measure_channel_capability",
+        "button_pause",
+        "button_ok"
       ],
       "pair": [
         {
@@ -1449,6 +1536,28 @@
     }
   ],
   "capabilities": {
+    "button_ok": {
+      "type": "boolean",
+      "title": {
+        "en": "OK",
+        "fr": "OK"
+      },
+      "uiComponent": "button",
+      "getable": true,
+      "setable": true,
+      "icon": "/assets/round-done-button-svgrepo-com.svg"
+    },
+    "button_pause": {
+      "type": "boolean",
+      "title": {
+        "en": "Pause",
+        "fr": "Pause"
+      },
+      "uiComponent": "button",
+      "getable": true,
+      "setable": true,
+      "icon": "/assets/play-pause-svgrepo-com.svg"
+    },
     "measure_channel_capability": {
       "type": "number",
       "title": {
@@ -2823,7 +2932,8 @@
       },
       "uiComponent": "button",
       "getable": true,
-      "setable": true
+      "setable": true,
+      "icon": "/assets/tv-monitor-svgrepo-com.svg"
     }
   }
 }

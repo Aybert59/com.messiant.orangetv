@@ -1,0 +1,8 @@
+{
+  "type": "boolean",
+  "title": { "en": "Pause", "fr": "Pause" },
+  "uiComponent": "button",
+  "getable": true,
+  "setable": true,
+  "icon": "/assets/play-pause-svgrepo-com.svg"
+}

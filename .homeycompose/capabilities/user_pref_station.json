@@ -3,5 +3,6 @@
   "title": { "en": "Preferred Channel", "fr": "Canal Préféré" },
   "uiComponent": "button",
   "getable": true,
-  "setable": true
+  "setable": true,
+  "icon" : "/assets/tv-monitor-svgrepo-com.svg"
 }

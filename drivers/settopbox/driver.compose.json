@@ -11,7 +11,9 @@
     "volume_up",
     "station_capability_static",
     "user_pref_station",
-    "measure_channel_capability"
+    "measure_channel_capability",
+    "button_pause",
+    "button_ok"
   ],
   "pair": [
       {

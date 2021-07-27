@@ -13,6 +13,9 @@ class STBDevice extends Device {
     static channelNum;
     static channelName;
     
+    static playedMediaState;
+    static osdContext;
+    
   /**
    * onInit is called when the device is initialized.
    */
@@ -36,12 +39,20 @@ class STBDevice extends Device {
     }
     this.registerCapabilityListener("user_pref_station", this.onCapabilityPrefStation1.bind(this));
 
+    this.registerCapabilityListener("button_ok", this.onCapabilityButtonOK.bind(this));
+    this.registerCapabilityListener("button_pause", this.onCapabilityButtonPause.bind(this));
       
     this.updateChannels();
       
     const changeChannelAction = this.homey.flow.getActionCard('change_channel');
       changeChannelAction.registerRunListener(this.flowChangeChannelAction.bind(this));
-      
+    const changeStateAction = this.homey.flow.getActionCard('change_state');
+      changeStateAction.registerRunListener(this.flowChangeStateAction.bind(this));
+        
+    const changeChannelCondition = this.homey.flow.getConditionCard('current_channel');
+      changeChannelCondition.registerRunListener(this.flowCurrentChannel.bind(this));
+    const currentStateCondition = this.homey.flow.getConditionCard('current_state');
+      currentStateCondition.registerRunListener(this.flowCurrentState.bind(this));
  
   }
 
@@ -66,29 +77,7 @@ class STBDevice extends Device {
    * @returns {Promise<string|void>} return a custom message that will be displayed
    */
   async onSettings({ oldSettings, newSettings, changedKeys }) {
-    this.log('MyDevice settings where changed', oldSettings, newSettings, changedKeys);
- 
-    /* en fait rien à faire pour les settins de station
-     
-      for (var i = 0; i < changedKeys.length; i++) {
-        const key = changedKeys[i];
-        switch (key) {
-            case 'PrefChannel1' :
-                this.log ('updating PrefChannel 1 with ', newSettings.PrefChannel1);
-                if (newSettings.PrefChannel1 != undefined)
-                  this.setCapabilityValue ('user_pref_station.1', newSettings.PrefChannel1);
-
-            break;
-            case 'PrefChannel2' :
-                this.log ('updating PrefChannel 2 with ', newSettings.PrefChannel2);
-                if (newSettings.PrefChannel1 != undefined)
-                  this.setCapabilityValue ('user_pref_station.2', newSettings.PrefChannel2);
-            break;
-        }
-      }
-      
-      */
-      
+    // this.log('MyDevice settings where changed', oldSettings, newSettings, changedKeys);
   }
 
   /**
@@ -120,7 +109,11 @@ this.log ('sending key : ', key);
         let ipAdr = this.getStoreValue ('ipaddress');
         let uri = 'http://' + ipAdr + ':8080/remoteControl/cmd?operation=01&key=' + key + '&mode=' + mode;
         http.get (uri);
+        
+        setTimeout(() => this.syncStatus (), 1000); // force status synchronization after 1 sec
     }
+    
+    //////////////////////////////////////////// Capabilities ///////////////////////////////////////
     
   // this method is called when the Device has requested a state change (turned on or off)
   async onCapabilityOnoff(value, opts) {
@@ -162,6 +155,18 @@ this.log ('sending key : ', key);
         const channel = this.getSetting ('PrefChannel1');
         this.log ('user preferred station 1', channel, opts);
         this.onCapabilityStation (channel, opts);
+        this.setCapabilityValue ('user_pref_station', false); // don't change the button status
+    }
+    
+    async onCapabilityButtonPause(value, opts) {
+        const status = this.getCapabilityValue ('button_pause');
+        this.setCapabilityValue ('button_pause', !status);
+        this.sendKey (164, 0);
+    }
+    async onCapabilityButtonOK(value, opts) {
+        this.setCapabilityValue ('button_ok', false);
+        this.sendKey (352, 0);
+
     }
     
     updateChannels() {
@@ -170,6 +175,8 @@ this.log ('sending key : ', key);
        
     }
     
+    //////////////////////////////////////////// Flows ///////////////////////////////////////
+    
     async flowChangeChannelAction (args, state) {
          
         if (this.getCapabilityValue ('onoff') == true) {
@@ -177,7 +184,51 @@ this.log ('sending key : ', key);
             this.triggerCapabilityListener('station_capability_static', canalID, null);
         }
     }
-       
+    
+    async flowChangeStateAction (args, state) {
+        const status = this.getCapabilityValue ('button_pause');
+        
+        if (this.getCapabilityValue ('onoff') == true) {
+            if ((status == true) && (args.state == "PLAY"))
+                this.triggerCapabilityListener('button_pause', null, null);
+            if ((status == false) && (args.state == "PAUSE"))
+                this.triggerCapabilityListener('button_pause', null, null);
+        }
+    }
+    
+    async flowCurrentChannel (args, state) {
+         
+        if (this.getCapabilityValue ('onoff') == true) {
+            const channelNum = this.getCapabilityValue ('measure_channel_capability');
+
+            if (args.canal == channelNum)
+                return true;
+            else
+                return false;
+        } else {
+            return false;
+        }
+    }
+    
+    async flowCurrentState (args, state) {
+         
+        if (this.getCapabilityValue ('onoff') == true) {
+            const state = this.getCapabilityValue ('button_pause');
+            
+            if (args.state == "PAUSE")
+                return state;
+            else
+                return !state;
+        } else {
+            return false;
+        }
+    }
+    
+    
+    
+    //////////////////////////////////////////// Utilities ///////////////////////////////////////
+    
+    
     findChannelID(channel) {
       if (channel.id == this.channelId)
           return true;
@@ -239,8 +290,12 @@ this.log ('sending key : ', key);
             return channel.id;
     }
     
+    //////////////////////////////////////////// real device status synchronization ///////////////////////////////////////
     
     syncStatus() {
+        
+        // never call sendKey within this function, otherwise this creates a loop
+        
         var channelNum;
         
         let addr = this.getStoreValue ('ipaddress');
@@ -263,19 +318,41 @@ this.log ('sending key : ', key);
                   
                   if (status == '0') {
                       this.setCapabilityValue ('onoff', true);
-                      this.channelId = parsedData.result.data.playedMediaId;
                       
-                      if (this.channelId == "") {
-                          // cas de netflix
-        this.log ('search for ID of ', parsedData.result.data.osdContext); // après netflix, pour changer de chaine, on trouve "popuphandler" : à noter pour approuver, éventuellement (sendkey ok / est-ce le bon endroit ? pas sur)
-                          // on trouve aussi 'home' sur page de garde
-                          
+                      
+                      // osdContext can be : popuphandler, home,
+                      // old decoder : HOMEPAGE,
+                      this.osdContext = parsedData.result.data.osdContext;
+                      
+                      if (this.osdContext == "LIVE") {
+                            this.playedMediaState = parsedData.result.data.playedMediaState;
+                            if (this.playedMediaState == "PLAY")
+                                this.setCapabilityValue ('button_pause', false);
+                            else
+                                this.setCapabilityValue ('button_pause', true);
+                            
+                            this.log ('context : LIVE, State : ', this.playedMediaState); // bug avec le nouveau decodeur, affiche toujours PLAY meme en pause
+                            this.channelId = parsedData.result.data.playedMediaId;
+                      }
+                      else {
+                          this.playedMediaState = "";
+                          this.channelId = "";
+                          channelNum = "0";
+                      }
+                      
+                      if (this.channelId == "") {   // cas de netflix ou de homepage
+
+                          /*
                           if (parsedData.result.data.osdContext == "popuphandler") { // n'a pas l'air au point
                               const force = this.getSetting ('sendOK');
                               if (force == true) {
-                                  this.sendKey (352, 0);
+                                  // find sth else, don't call sendKey in here
+                                    this.sendKey (352, 0);
                               }
                           }
+                          */
+                          
+                          this.log ('search for ID of ', parsedData.result.data.osdContext);
                           channelNum = this.getChannelNumByName (parsedData.result.data.osdContext);
                           
                       } else {
@@ -295,6 +372,8 @@ this.log ('sending key : ', key);
                       }
                   } else {
                       this.setCapabilityValue ('onoff', false);
+                      this.playedMediaState = "";
+                      this.channelId = "";
                   }
                   
                 } catch (e) {

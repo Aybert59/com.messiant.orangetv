@@ -1,0 +1,16 @@
+{
+  "title": {
+    "en": "Current chanel is ...",
+    "fr": "La chaine en cours est ..."
+  },
+  "titleFormatted": {
+    "en": "Current chanel is [[canal]]",
+    "fr": "La chaine en cours est [[canal]]"
+  },
+  "args": [
+    {
+      "name": "canal",
+      "type": "number"
+    }
+  ]
+}

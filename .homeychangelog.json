@@ -16,5 +16,8 @@
   },
   "1.1.1": {
     "en": "enhanced channels management"
+  },
+  "1.2.0": {
+    "en": "added Pause and OK"
   }
 }
