@@ -19,5 +19,8 @@
   },
   "1.2.0": {
     "en": "added Pause and OK"
+  },
+  "1.2.1": {
+    "en": "minor bug correction"
   }
 }

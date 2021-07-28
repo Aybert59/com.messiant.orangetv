@@ -110,7 +110,8 @@ this.log ('sending key : ', key);
         let uri = 'http://' + ipAdr + ':8080/remoteControl/cmd?operation=01&key=' + key + '&mode=' + mode;
         http.get (uri);
         
-        setTimeout(() => this.syncStatus (), 1000); // force status synchronization after 1 sec
+ // pas forcément une bonne idée, doit interférer avec appui multiple
+ //       setTimeout(() => this.syncStatus (), 1000); // force status synchronization after 1 sec
     }
     
     //////////////////////////////////////////// Capabilities ///////////////////////////////////////
@@ -147,8 +148,7 @@ this.log ('sending key : ', key);
             http.get (uri);
         }
         
-
-        this.syncStatus();
+        setTimeout(() => this.syncStatus (), 2000); // force status synchronization after 2 sec
     }
     
     async onCapabilityPrefStation1 (value, opts) {
@@ -156,17 +156,22 @@ this.log ('sending key : ', key);
         this.log ('user preferred station 1', channel, opts);
         this.onCapabilityStation (channel, opts);
         this.setCapabilityValue ('user_pref_station', false); // don't change the button status
+        
+        setTimeout(() => this.syncStatus (), 2000); // force status synchronization after 2 sec
     }
     
     async onCapabilityButtonPause(value, opts) {
         const status = this.getCapabilityValue ('button_pause');
         this.setCapabilityValue ('button_pause', !status);
         this.sendKey (164, 0);
+        
+        setTimeout(() => this.syncStatus (), 2000); // force status synchronization after 2 sec
     }
     async onCapabilityButtonOK(value, opts) {
         this.setCapabilityValue ('button_ok', false);
         this.sendKey (352, 0);
 
+        setTimeout(() => this.syncStatus (), 2000); // force status synchronization after 2 sec
     }
     
     updateChannels() {
