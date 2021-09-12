@@ -4,7 +4,7 @@ const http = require('http');
 const https = require('https');
 const { Device } = require('homey');
 
-const SYNC_INTERVAL = 1000 * 20  // 20 seconds
+const SYNC_INTERVAL = 1000 * 10  // 20 seconds
 
 class STBDevice extends Device {
 
@@ -63,8 +63,14 @@ class STBDevice extends Device {
     this.log('MyDevice has been added');
     this.log(this.getName());
       
-    this.syncStatus();
-    this.syncInterval = setInterval(() => this.syncStatus(), SYNC_INTERVAL);
+      const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
+    
+      while (true) {
+        this.syncStatus();
+        await delay(SYNC_INTERVAL);
+      }
+    //this.syncStatus();
+    //this.syncInterval = this.homey.setInterval(() => this.syncStatus(), SYNC_INTERVAL);
 
   }
 
@@ -302,7 +308,7 @@ this.log ('sending key : ', key);
         // never call sendKey within this function, otherwise this creates a loop
         
         var channelNum;
-        
+
         let addr = this.getStoreValue ('ipaddress');
         const testuri = 'http://' + addr + ':8080/remoteControl/cmd?operation=10';
                 

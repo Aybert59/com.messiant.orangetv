@@ -7,10 +7,14 @@
     "en": "Change state to [[state]]",
     "fr": "Met en [[state]]"
   },
+  "platforms": [
+    "local"
+  ],
   "args": [
     {
       "name": "state",
       "type": "dropdown",
+      "title": { "en": "Status", "fr": "Etat" },
       "values": [
               { "id": "PLAY", "label": { "en": "PLAY", "fr": "PLAY" } },
               { "id": "PAUSE", "label": { "en": "PAUSE", "fr": "PAUSE" } }

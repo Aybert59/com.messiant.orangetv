@@ -7,9 +7,13 @@
     "en": "Change channel to [[canal]]",
     "fr": "Met la chaine [[canal]]"
   },
+  "platforms": [
+    "local"
+  ],
   "args": [
     {
       "name": "canal",
+      "title": { "en": "Channel", "fr": "Canal" },
       "type": "number"
     }
   ]

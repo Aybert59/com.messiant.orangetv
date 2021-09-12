@@ -7,9 +7,13 @@
     "en": "Current chanel is [[canal]]",
     "fr": "La chaine en cours est [[canal]]"
   },
+  "platforms": [
+    "local"
+  ],
   "args": [
     {
       "name": "canal",
+      "title": { "en": "Channel", "fr": "Canal" },
       "type": "number"
     }
   ]
