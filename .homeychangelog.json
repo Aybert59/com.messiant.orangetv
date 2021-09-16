@@ -25,5 +25,8 @@
   },
   "1.2.2": {
     "en": "Device status synchronization enhancement"
+  },
+  "1.2.3": {
+    "en": "Corrected application crash when settopbox is unreachable"
   }
 }

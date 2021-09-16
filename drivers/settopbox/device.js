@@ -62,12 +62,15 @@ class STBDevice extends Device {
   async onAdded() {
     this.log('MyDevice has been added');
     this.log(this.getName());
+    this.setAvailable();
       
       const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
     
       while (true) {
-        this.syncStatus();
-        await delay(SYNC_INTERVAL);
+//          if (this.getAvailable()) {
+              this.syncStatus();
+              await delay(SYNC_INTERVAL);
+ //         }
       }
     //this.syncStatus();
     //this.syncInterval = this.homey.setInterval(() => this.syncStatus(), SYNC_INTERVAL);
@@ -100,7 +103,7 @@ class STBDevice extends Device {
    */
   async onDeleted() {
     this.log('MyDevice has been deleted');
-      clearInterval(this.syncInterval);
+      // should perform some cleanup
   }
 
     async sendKey (key, mode) {
@@ -116,8 +119,14 @@ this.log ('sending key : ', key);
         let uri = 'http://' + ipAdr + ':8080/remoteControl/cmd?operation=01&key=' + key + '&mode=' + mode;
         http.get (uri);
         
- // pas forcément une bonne idée, doit interférer avec appui multiple
- //       setTimeout(() => this.syncStatus (), 1000); // force status synchronization after 1 sec
+        try {    http.get(uri).on('error', function(e) {
+                this.log(e);
+                this.setUnavailable();
+            });
+        } catch (e) {
+            this.log(e.message);
+            this.setUnavailable();
+        }
     }
     
     //////////////////////////////////////////// Capabilities ///////////////////////////////////////
@@ -326,10 +335,8 @@ this.log ('sending key : ', key);
                   this.setAvailable();
                   const status = parsedData.result.data.activeStandbyState;
                   
-                  
                   if (status == '0') {
                       this.setCapabilityValue ('onoff', true);
-                      
                       
                       // osdContext can be : popuphandler, home,
                       // old decoder : HOMEPAGE,
@@ -352,20 +359,8 @@ this.log ('sending key : ', key);
                       }
                       
                       if (this.channelId == "") {   // cas de netflix ou de homepage
-
-                          /*
-                          if (parsedData.result.data.osdContext == "popuphandler") { // n'a pas l'air au point
-                              const force = this.getSetting ('sendOK');
-                              if (force == true) {
-                                  // find sth else, don't call sendKey in here
-                                    this.sendKey (352, 0);
-                              }
-                          }
-                          */
-                          
                           this.log ('search for ID of ', parsedData.result.data.osdContext);
                           channelNum = this.getChannelNumByName (parsedData.result.data.osdContext);
-                          
                       } else {
                           channelNum = this.getChannelNumByID (parsedData.result.data.playedMediaId);
                       }
