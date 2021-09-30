@@ -28,5 +28,8 @@
   },
   "1.2.3": {
     "en": "Corrected application crash when settopbox is unreachable"
+  },
+  "1.2.4": {
+    "en": "bug correction"
   }
 }
