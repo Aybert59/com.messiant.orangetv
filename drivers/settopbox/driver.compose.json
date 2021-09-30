@@ -37,6 +37,12 @@
         "template": "add_devices"
       }
     ],
+  "energy": {
+      "approximation": {
+        "usageOn": 10,
+        "usageOff": 7.5
+        }
+      },
   "images": {
     "small": "/drivers/settopbox/assets/images/orangeTV small.png",
     "large": "/drivers/settopbox/assets/images/orangeTV large.png"

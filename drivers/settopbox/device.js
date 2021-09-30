@@ -4,7 +4,7 @@ const http = require('http');
 const https = require('https');
 const { Device } = require('homey');
 
-const SYNC_INTERVAL = 1000 * 10  // 20 seconds
+const SYNC_INTERVAL = 1000 * 10  // 10 seconds
 
 class STBDevice extends Device {
 
@@ -89,6 +89,7 @@ class STBDevice extends Device {
     // this.log('MyDevice settings where changed', oldSettings, newSettings, changedKeys);
   }
 
+  
   /**
    * onRenamed is called when the user updates the device's name.
    * This method can be used this to synchronise the name to the device.
@@ -119,10 +120,11 @@ this.log ('sending key : ', key);
         let uri = 'http://' + ipAdr + ':8080/remoteControl/cmd?operation=01&key=' + key + '&mode=' + mode;
         http.get (uri);
         
-        try {    http.get(uri).on('error', function(e) {
-                this.log(e);
-                this.setUnavailable();
-            });
+   //     try {    http.get(uri).on('error', function(e) {
+   //             this.log(e);
+   //             this.setUnavailable();
+   //         });
+        try {    http.get(uri);
         } catch (e) {
             this.log(e.message);
             this.setUnavailable();
