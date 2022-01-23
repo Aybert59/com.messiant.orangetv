@@ -1,0 +1,13 @@
+{
+  "title": {
+    "en": "Prev channel",
+    "fr": "Chaine précédente"
+  },
+  "titleFormatted": {
+    "en": "Previous channel",
+    "fr": "Chaine précédente"
+  },
+  "platforms": [
+    "local"
+  ]
+}

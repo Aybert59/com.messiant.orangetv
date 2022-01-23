@@ -13,7 +13,9 @@
     "user_pref_station",
     "measure_channel_capability",
     "button_pause",
-    "button_ok"
+    "button_ok",
+    "button_next",
+    "button_prev"
   ],
   "platforms": [ "local" ],
   "connectivity": [ "lan" ],

@@ -41,13 +41,20 @@ class STBDevice extends Device {
 
     this.registerCapabilityListener("button_ok", this.onCapabilityButtonOK.bind(this));
     this.registerCapabilityListener("button_pause", this.onCapabilityButtonPause.bind(this));
-      
+    
+    this.registerCapabilityListener("button_next", this.onCapabilityButtonNext.bind(this));
+    this.registerCapabilityListener("button_prev", this.onCapabilityButtonPrev.bind(this));
+
     this.updateChannels();
       
     const changeChannelAction = this.homey.flow.getActionCard('change_channel');
       changeChannelAction.registerRunListener(this.flowChangeChannelAction.bind(this));
     const changeStateAction = this.homey.flow.getActionCard('change_state');
       changeStateAction.registerRunListener(this.flowChangeStateAction.bind(this));
+    const nextChannelAction = this.homey.flow.getActionCard('next_channel');
+      nextChannelAction.registerRunListener(this.flowNextChannelAction.bind(this));
+    const prevChannelAction = this.homey.flow.getActionCard('prev_channel');
+      prevChannelAction.registerRunListener(this.flowPrevChannelAction.bind(this));
         
     const changeChannelCondition = this.homey.flow.getConditionCard('current_channel');
       changeChannelCondition.registerRunListener(this.flowCurrentChannel.bind(this));
@@ -65,16 +72,23 @@ class STBDevice extends Device {
     this.setAvailable();
       
       const delay = ms => new Promise(resolve => setTimeout(resolve, ms));
-    
+
+      let addr = this.getStoreValue ('ipaddress');
+      const testuri = 'http://' + addr + ':8080/remoteControl/cmd?operation=10';
+      this.setStoreValue ('uri',testuri);
+
       while (true) {
 //          if (this.getAvailable()) {
-              this.syncStatus();
+              this.log('syncing...');
+              await this.syncStatus()
+              .catch(error => {
+				this.log('Sync error :', error);
+				return;
+			    });
               await delay(SYNC_INTERVAL);
  //         }
       }
-    //this.syncStatus();
-    //this.syncInterval = this.homey.setInterval(() => this.syncStatus(), SYNC_INTERVAL);
-
+    
   }
 
   /**
@@ -118,7 +132,7 @@ class STBDevice extends Device {
 this.log ('sending key : ', key);
         let ipAdr = this.getStoreValue ('ipaddress');
         let uri = 'http://' + ipAdr + ':8080/remoteControl/cmd?operation=01&key=' + key + '&mode=' + mode;
-        http.get (uri);
+      //  http.get (uri);
         
    //     try {    http.get(uri).on('error', function(e) {
    //             this.log(e);
@@ -191,6 +205,18 @@ this.log ('sending key : ', key);
         setTimeout(() => this.syncStatus (), 2000); // force status synchronization after 2 sec
     }
     
+    async onCapabilityButtonNext(value, opts) {
+        this.setCapabilityValue ('button_next', false);
+        this.sendKey (402, 0);
+                
+        setTimeout(() => this.syncStatus (), 2000); // force status synchronization after 2 sec
+    }
+    async onCapabilityButtonPrev(value, opts) {
+        this.setCapabilityValue ('button_prev', false);
+        this.sendKey (403, 0);
+
+        setTimeout(() => this.syncStatus (), 2000); // force status synchronization after 2 sec
+    }
     updateChannels() {
         
         // if one day we could have it dynamic
@@ -207,6 +233,20 @@ this.log ('sending key : ', key);
         }
     }
     
+    async flowNextChannelAction (args, state) {
+         
+        if (this.getCapabilityValue ('onoff') == true) {
+            this.triggerCapabilityListener('button_next', null, null);
+        }
+    }
+
+    async flowPrevChannelAction (args, state) {
+         
+        if (this.getCapabilityValue ('onoff') == true) {
+            this.triggerCapabilityListener('button_prev', null, null);
+        }
+    }
+
     async flowChangeStateAction (args, state) {
         const status = this.getCapabilityValue ('button_pause');
         
@@ -288,6 +328,11 @@ this.log ('sending key : ', key);
         
         this.channelName = name;
         var channel = this.channelsDB.find (this.findChannelName, this);
+
+        // cas nom traité : FTVREPLAY, popuphandler, ISMOSAIC, ...
+        // ajouter Disney+ 68
+        // AmazonInstantVideo = PrimeVideo 67
+
         if (channel == undefined)
         {
             this.channelId = "0";
@@ -314,14 +359,13 @@ this.log ('sending key : ', key);
     
     //////////////////////////////////////////// real device status synchronization ///////////////////////////////////////
     
-    syncStatus() {
+    async syncStatus() {
         
         // never call sendKey within this function, otherwise this creates a loop
         
         var channelNum;
 
-        let addr = this.getStoreValue ('ipaddress');
-        const testuri = 'http://' + addr + ':8080/remoteControl/cmd?operation=10';
+        let testuri = this.getStoreValue ('uri');
                 
         http.get(testuri, (res) => {
           const { statusCode } = res;
@@ -383,6 +427,7 @@ this.log ('sending key : ', key);
                       this.playedMediaState = "";
                       this.channelId = "";
                   }
+                  this.log('...sync\'d');
                   
                 } catch (e) {
                     this.log(e.message);

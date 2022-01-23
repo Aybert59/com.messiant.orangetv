@@ -34,5 +34,11 @@
   },
   "1.2.5": {
     "en": "minor bug correction"
+  },
+  "1.2.6": {
+    "en": "Yet another bug correction"
+  },
+  "1.2.7": {
+    "en": "Added Next/previous channel"
   }
 }
