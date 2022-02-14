@@ -80,11 +80,12 @@ class STBDevice extends Device {
       while (true) {
 //          if (this.getAvailable()) {
               this.log('syncing...');
-              await this.syncStatus()
-              .catch(error => {
-				this.log('Sync error :', error);
-				return;
-			    });
+              try { 
+                  await this.syncStatus(); 
+                }
+              catch (error) {
+				    this.log('Sync error :', error);
+		        };
               await delay(SYNC_INTERVAL);
  //         }
       }
