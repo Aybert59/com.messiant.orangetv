@@ -43,5 +43,8 @@
   },
   "1.2.8": {
     "en": "small tweaks"
+  },
+  "1.2.9": {
+    "en": "Attached flows to devices"
   }
 }
