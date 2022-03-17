@@ -92,14 +92,14 @@ class STBDriver extends Driver {
         // Argument device is a Homey.Device that's being repaired
         this.log ('Repairing');
         
-        device.updateChannels();
-        session.setHandler("my_event", (data) => {
+        device.onAdded();
+        //session.setHandler("my_event", (data) => {
           // Your code
-        });
+        //});
 
-        session.setHandler("disconnect", () => {
+        //session.setHandler("disconnect", () => {
           // Cleanup
-        });
+        //});
       }
 }
 

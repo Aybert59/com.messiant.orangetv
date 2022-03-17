@@ -92,6 +92,29 @@ class STBDevice extends Device {
     
   }
 
+  async ready() {
+    this.log('device:ready');
+  }
+
+  onDiscoveryResult(discoveryResult) {
+    this.log('onDiscoveryResult');
+    return discoveryResult.id === this.getData().id;
+  }
+
+  onDiscoveryAvailable(discoveryResult) {
+    this.log('onDiscoveryAvailable', discoveryResult);
+    //this.setStoreValue('address', discoveryResult.address);
+  }
+
+  onDiscoveryAddressChanged(discoveryResult) {
+    this.log('onDiscoveryAddressChanged', discoveryResult);
+    // todo set in store
+  }
+
+  onDiscoveryLastSeenChanged(discoveryResult) {
+    this.log('onLastSeenChanged', discoveryResult);
+  }
+
   /**
    * onSettings is called when the user updates the device's settings.
    * @param {object} event the onSettings event data

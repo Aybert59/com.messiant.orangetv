@@ -46,5 +46,8 @@
   },
   "1.2.9": {
     "en": "Attached flows to devices"
+  },
+  "1.2.10": {
+    "en": "Added basic repair method"
   }
 }
