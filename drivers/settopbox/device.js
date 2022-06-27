@@ -200,7 +200,11 @@ this.log ('sending key : ', key);
             }
         } else {
             let uri = 'http://' + ipAdr + ':8080/remoteControl/cmd?operation=09&epg_id=' + key.padStart(10,'*') + '&uui=1';
-            http.get (uri);
+            try {   http.get (uri);
+            } catch (e) {
+                this.log(e.message);
+                this.setUnavailable();
+            }
         }
         
         setTimeout(() => this.syncStatus (), 2000); // force status synchronization after 2 sec
